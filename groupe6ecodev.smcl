@@ -1,0 +1,490 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\LENOVO\3D Objects\2026.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}31 Dec 2025, 15:14:52
+
+{com}. import excel "C:\Users\LENOVO\Downloads\praticM1.xlsx", sheet("Feuil1") firstrow
+{res}{text}(7 vars, 392 obs)
+
+{com}. rename TCPIBH tcpibh
+{res}
+{com}. 
+. rename TINVT tinvt
+{res}
+{com}. 
+. rename TOC toc
+{res}
+{com}. 
+. rename TINF tinf
+{res}
+{com}. 
+. rename Id id
+{res}
+{com}. 
+. rename Year year
+{res}
+{com}. 
+. rename Pays pays
+{res}
+{com}. rename TCPIBH tcpibh
+{res}{err}variable {bf}TCPIBH{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. rename TINVT tinvt
+{res}{err}variable {bf}TINVT{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. rename TOC toc
+{res}{err}variable {bf}TOC{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. rename TINF tinf
+{res}{err}variable {bf}TINF{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. rename Id id
+{res}{err}variable {bf}Id{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. rename Year year
+{res}{err}variable {bf}Year{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. 
+. rename Pays pays
+{res}{err}variable {bf}Pays{sf} not found
+{txt}{search r(111), local:r(111);}
+
+{com}. destring tcpibh tinvt toc tinf, replace force
+{txt}tcpibh: all characters numeric; {res}replaced {txt}as {res}double
+{txt}tinvt: all characters numeric; {res}replaced {txt}as {res}double
+{txt}toc: all characters numeric; {res}replaced {txt}as {res}double
+{txt}tinf: all characters numeric; {res}replaced {txt}as {res}double
+
+{com}. xtset id year
+{res}
+{col 1}{txt:Panel variable: }{res:id}{txt: (strongly balanced)}
+{p 1 16 2}{txt:Time variable: }{res:year}{txt:, }{res:{bind:1990}}{txt: to }{res:{bind:2017}}{p_end}
+{txt}{col 10}Delta: {res}1 unit
+
+{com}. summarize tcpibh tinvt toc tinf
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}tcpibh {c |}{res}        392    1.398248    4.534475  -29.46159   21.02806
+{txt}{space 7}tinvt {c |}{res}        392    19.96584    9.758596  -2.424358       54.3
+{txt}{space 9}toc {c |}{res}        392    58.94732     21.9946   4.629425   160.0094
+{txt}{space 8}tinf {c |}{res}        392    8.525571    11.83867  -7.796642    72.8355
+
+{com}. xtreg tcpibh tinvt toc tinf, fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       392
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        14
+
+{txt}R-squared:{col 49}Obs per group:
+     Within  = {res}0.0397{col 63}{txt}min{col 67}={col 69}{res}        28
+{txt}     Between = {res}0.5446{col 63}{txt}avg{col 67}={col 69}{res}      28.0
+{txt}     Overall = {res}0.0836{col 63}{txt}max{col 67}={col 69}{res}        28
+
+{txt}{col 49}F({res}3{txt},{res}375{txt}){col 67}={col 70}{res}     5.17
+{txt}corr(u_i, Xb) = {res}0.0457{txt}{col 49}Prob > F{col 67}={col 73}{res}0.0016
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      tcpibh{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}tinvt {c |}{col 14}{res}{space 2} .1402617{col 26}{space 2} .0361846{col 37}{space 1}    3.88{col 46}{space 3}0.000{col 54}{space 4} .0691116{col 67}{space 3} .2114118
+{txt}{space 9}toc {c |}{col 14}{res}{space 2}-.0245305{col 26}{space 2} .0154872{col 37}{space 1}   -1.58{col 46}{space 3}0.114{col 54}{space 4}-.0549832{col 67}{space 3} .0059222
+{txt}{space 8}tinf {c |}{col 14}{res}{space 2}-.0259157{col 26}{space 2} .0241799{col 37}{space 1}   -1.07{col 46}{space 3}0.285{col 54}{space 4}-.0734608{col 67}{space 3} .0216295
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} .2647599{col 26}{space 2} 1.046143{col 37}{space 1}    0.25{col 46}{space 3}0.800{col 54}{space 4}-1.792281{col 67}{space 3} 2.321801
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} .93798692
+     {txt}sigma_e {c |} {res}  4.335132
+         {txt}rho {c |} {res} .04472175{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+F test that all u_i=0: F({res}13{txt}, {res}375{txt}) = {res}1.01{col 62}{txt}Prob > F = {res}0.4379
+
+{com}. 
+. test tinvt toc tinf
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}tinvt = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} toc = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} tinf = 0{p_end}
+
+{txt}       F(  3,   375) ={res}    5.17
+{txt}{col 13}Prob > F ={res}    0.0016
+
+{com}. estimates store fixed
+
+. 
+. xtreg tcpibh tinvt toc tinf, re
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       392
+{txt}Group variable: {res}id                              {txt}Number of groups  = {res}        14
+
+{txt}R-squared:                                      Obs per group:
+     Within  = {res}0.0357                                         {txt}min = {res}        28
+{txt}     Between = {res}0.6990                                         {txt}avg = {res}      28.0
+{txt}     Overall = {res}0.0926                                         {txt}max = {res}        28
+
+                                                {txt}Wald chi2({res}3{txt})      =  {res}    39.60
+{txt}corr(u_i, X) = {res}0{txt} (assumed)                      Prob > chi2       =     {res}0.0000
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      tcpibh{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}tinvt {c |}{col 14}{res}{space 2} .1480347{col 26}{space 2} .0242738{col 37}{space 1}    6.10{col 46}{space 3}0.000{col 54}{space 4}  .100459{col 67}{space 3} .1956105
+{txt}{space 9}toc {c |}{col 14}{res}{space 2}-.0075312{col 26}{space 2} .0106203{col 37}{space 1}   -0.71{col 46}{space 3}0.478{col 54}{space 4}-.0283465{col 67}{space 3} .0132842
+{txt}{space 8}tinf {c |}{col 14}{res}{space 2}-.0121027{col 26}{space 2} .0190108{col 37}{space 1}   -0.64{col 46}{space 3}0.524{col 54}{space 4}-.0493632{col 67}{space 3} .0251578
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-1.010263{col 26}{space 2} .7000605{col 37}{space 1}   -1.44{col 46}{space 3}0.149{col 54}{space 4}-2.382357{col 67}{space 3} .3618303
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res}         0
+     {txt}sigma_e {c |} {res}  4.335132
+         {txt}rho {c |} {res}         0{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. 
+. hausman fixed .
+
+{txt}{col 18}{hline 4} Coefficients {hline 4}
+{col 14}{c |}{col 21}(b){col 34}(B){col 49}(b-B){col 59}sqrt(diag(V_b-V_B))
+{col 14}{c |}{col 17}   fixed    {col 30}     .      {col 46}Difference{col 63}Std. err.
+{hline 13}{c +}{hline 64}
+{space 7}tinvt {c |}{res}{col 18} .1402617{col 31} .1480347{col 47} -.007773{col 63} .0268348
+{txt}{space 9}toc {c |}{res}{col 18}-.0245305{col 31}-.0075312{col 47}-.0169993{col 63} .0112723
+{txt}{space 8}tinf {c |}{res}{col 18}-.0259157{col 31}-.0121027{col 47}-.0138129{col 63} .0149417
+{txt}{hline 13}{c BT}{hline 64}
+{ralign 78:b = Consistent under H0 and Ha; obtained from {bf:xtreg}.}
+{ralign 78:B = Inconsistent under Ha, efficient under H0; obtained from {bf:xtreg}.}
+
+Test of H0: Difference in coefficients not systematic
+
+{ralign 11:chi2({res:3})} = (b-B)'[(V_b-V_B)^(-1)](b-B)
+{ralign 11:} = {res:{ralign 6:3.57}}
+{ralign 11:Prob > chi2} = {res:{ralign 6:0.3118}}
+
+{com}. xtunitroot llc tcpibh, lags(1)
+
+{txt}Levin–Lin–Chu unit-root test for {res}tcpibh
+{txt}{hline 39}
+H0: Panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Common{txt}{col 45}Asymptotics: {res}N/T -> 0
+{txt}Panel means:  {res}Included
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lag
+LR variance:     {res}Bartlett{txt} kernel, {res}9.00{txt} lags average (chosen by {res}LLC{txt})
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}Unadjusted t{res}{col 21}-11.3338
+{txt}{col 2}Adjusted t*{res}{col 21} -4.6250{col 37}0.0000
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot llc tinvt, lags(1)
+
+{txt}Levin–Lin–Chu unit-root test for {res}tinvt
+{txt}{hline 38}
+H0: Panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Common{txt}{col 45}Asymptotics: {res}N/T -> 0
+{txt}Panel means:  {res}Included
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lag
+LR variance:     {res}Bartlett{txt} kernel, {res}9.00{txt} lags average (chosen by {res}LLC{txt})
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}Unadjusted t{res}{col 21} -5.0949
+{txt}{col 2}Adjusted t*{res}{col 21} -1.5865{col 37}0.0563
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot llc toc, lags(1)
+
+{txt}Levin–Lin–Chu unit-root test for {res}toc
+{txt}{hline 36}
+H0: Panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Common{txt}{col 45}Asymptotics: {res}N/T -> 0
+{txt}Panel means:  {res}Included
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lag
+LR variance:     {res}Bartlett{txt} kernel, {res}9.00{txt} lags average (chosen by {res}LLC{txt})
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}Unadjusted t{res}{col 21} -6.7821
+{txt}{col 2}Adjusted t*{res}{col 21} -1.1231{col 37}0.1307
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot llc tinf, lags(1)
+
+{txt}Levin–Lin–Chu unit-root test for {res}tinf
+{txt}{hline 37}
+H0: Panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Common{txt}{col 45}Asymptotics: {res}N/T -> 0
+{txt}Panel means:  {res}Included
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lag
+LR variance:     {res}Bartlett{txt} kernel, {res}9.00{txt} lags average (chosen by {res}LLC{txt})
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}Unadjusted t{res}{col 21} -9.9058
+{txt}{col 2}Adjusted t*{res}{col 21} -4.3267{col 37}0.0000
+{txt}{hline 78}
+
+{com}. xtunitroot ips tcpibh, lags(1)
+
+{txt}Im–Pesaran–Shin unit-root test for {res}tcpibh
+{txt}{hline 41}
+H0: All panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Some panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Panel-specific{txt}{col 45}Asymptotics: {res}T,N -> Infinity
+{txt}Panel means:  {res}Included{col 63}sequentially
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lags
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}W-t-bar{res}{col 21} -6.6757{col 37}0.0000
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot ips tinvt, lags(1)
+
+{txt}Im–Pesaran–Shin unit-root test for {res}tinvt
+{txt}{hline 40}
+H0: All panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Some panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Panel-specific{txt}{col 45}Asymptotics: {res}T,N -> Infinity
+{txt}Panel means:  {res}Included{col 63}sequentially
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lags
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}W-t-bar{res}{col 21} -0.7372{col 37}0.2305
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot ips toc, lags(1)
+
+{txt}Im–Pesaran–Shin unit-root test for {res}toc
+{txt}{hline 38}
+H0: All panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Some panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Panel-specific{txt}{col 45}Asymptotics: {res}T,N -> Infinity
+{txt}Panel means:  {res}Included{col 63}sequentially
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lags
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}W-t-bar{res}{col 21} -1.8403{col 37}0.0329
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot ips tinf, lags(1)
+
+{txt}Im–Pesaran–Shin unit-root test for {res}tinf
+{txt}{hline 39}
+H0: All panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Some panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     28
+
+{txt}AR parameter: {res}Panel-specific{txt}{col 45}Asymptotics: {res}T,N -> Infinity
+{txt}Panel means:  {res}Included{col 63}sequentially
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lags
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}W-t-bar{res}{col 21} -5.6990{col 37}0.0000
+{txt}{hline 78}
+
+{com}. bysort id: gen dtinvt = D.tinvt
+{txt}(14 missing values generated)
+
+{com}. 
+. bysort id: gen dtoc = D.toc
+{txt}(14 missing values generated)
+
+{com}. xtunitroot llc dtinvt, lags(1)
+
+{txt}Levin–Lin–Chu unit-root test for {res}dtinvt
+{txt}{hline 39}
+H0: Panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     27
+
+{txt}AR parameter: {res}Common{txt}{col 45}Asymptotics: {res}N/T -> 0
+{txt}Panel means:  {res}Included
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lag
+LR variance:     {res}Bartlett{txt} kernel, {res}9.00{txt} lags average (chosen by {res}LLC{txt})
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}Unadjusted t{res}{col 21}-16.9817
+{txt}{col 2}Adjusted t*{res}{col 21} -9.3894{col 37}0.0000
+{txt}{hline 78}
+
+{com}. 
+. xtunitroot llc dtoc, lags(1)
+
+{txt}Levin–Lin–Chu unit-root test for {res}dtoc
+{txt}{hline 37}
+H0: Panels contain unit roots{col 45}Number of panels{col 63}={col 64}{res}     14
+{txt}Ha: Panels are stationary{col 45}Number of periods{col 63}={col 64}{res}     27
+
+{txt}AR parameter: {res}Common{txt}{col 45}Asymptotics: {res}N/T -> 0
+{txt}Panel means:  {res}Included
+{txt}Time trend:   {res}Not included
+
+{txt}ADF regressions: {res}1{txt} lag
+LR variance:     {res}Bartlett{txt} kernel, {res}9.00{txt} lags average (chosen by {res}LLC{txt})
+{hline 78}
+{col 21}Statistic{col 36}p-value
+{hline 78}
+{col 2}Unadjusted t{res}{col 21}-15.4729
+{txt}{col 2}Adjusted t*{res}{col 21} -7.2175{col 37}0.0000
+{txt}{hline 78}
+
+{com}. xtreg tcpibh dtinvt dtoc tinf, fe
+{res}
+{txt}Fixed-effects (within) regression{col 49}Number of obs{col 67}={col 69}{res}       378
+{txt}Group variable: {res}id{txt}{col 49}Number of groups{col 67}={col 69}{res}        14
+
+{txt}R-squared:{col 49}Obs per group:
+     Within  = {res}0.0101{col 63}{txt}min{col 67}={col 69}{res}        27
+{txt}     Between = {res}0.1466{col 63}{txt}avg{col 67}={col 69}{res}      27.0
+{txt}     Overall = {res}0.0068{col 63}{txt}max{col 67}={col 69}{res}        27
+
+{txt}{col 49}F({res}3{txt},{res}361{txt}){col 67}={col 70}{res}     1.23
+{txt}corr(u_i, Xb) = {res}-0.0462{txt}{col 49}Prob > F{col 67}={col 73}{res}0.2995
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      tcpibh{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}dtinvt {c |}{col 14}{res}{space 2} .0984416{col 26}{space 2} .0563304{col 37}{space 1}    1.75{col 46}{space 3}0.081{col 54}{space 4}-.0123354{col 67}{space 3} .2092186
+{txt}{space 8}dtoc {c |}{col 14}{res}{space 2}-.0258711{col 26}{space 2} .0214053{col 37}{space 1}   -1.21{col 46}{space 3}0.228{col 54}{space 4}-.0679659{col 67}{space 3} .0162237
+{txt}{space 8}tinf {c |}{col 14}{res}{space 2}  .003052{col 26}{space 2}  .023791{col 37}{space 1}    0.13{col 46}{space 3}0.898{col 54}{space 4}-.0437345{col 67}{space 3} .0498384
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.434089{col 26}{space 2} .3031772{col 37}{space 1}    4.73{col 46}{space 3}0.000{col 54}{space 4} .8378741{col 67}{space 3} 2.030304
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.4473088
+     {txt}sigma_e {c |} {res} 4.4018742
+         {txt}rho {c |} {res} .09755873{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+F test that all u_i=0: F({res}13{txt}, {res}361{txt}) = {res}2.90{col 62}{txt}Prob > F = {res}0.0005
+
+{com}. 
+. estimates store fixed_stat
+
+. 
+. xtreg tcpibh dtinvt dtoc tinf, re
+{res}
+{txt}Random-effects GLS regression                   Number of obs     = {res}       378
+{txt}Group variable: {res}id                              {txt}Number of groups  = {res}        14
+
+{txt}R-squared:                                      Obs per group:
+     Within  = {res}0.0100                                         {txt}min = {res}        27
+{txt}     Between = {res}0.1181                                         {txt}avg = {res}      27.0
+{txt}     Overall = {res}0.0070                                         {txt}max = {res}        27
+
+                                                {txt}Wald chi2({res}3{txt})      =  {res}     3.27
+{txt}corr(u_i, X) = {res}0{txt} (assumed)                      Prob > chi2       =     {res}0.3522
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      tcpibh{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}dtinvt {c |}{col 14}{res}{space 2} .0943626{col 26}{space 2} .0562728{col 37}{space 1}    1.68{col 46}{space 3}0.094{col 54}{space 4}-.0159301{col 67}{space 3} .2046552
+{txt}{space 8}dtoc {c |}{col 14}{res}{space 2}-.0225074{col 26}{space 2} .0214279{col 37}{space 1}   -1.05{col 46}{space 3}0.294{col 54}{space 4}-.0645054{col 67}{space 3} .0194905
+{txt}{space 8}tinf {c |}{col 14}{res}{space 2} .0051762{col 26}{space 2} .0216321{col 37}{space 1}    0.24{col 46}{space 3}0.811{col 54}{space 4} -.037222{col 67}{space 3} .0475744
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.415874{col 26}{space 2} .3994613{col 37}{space 1}    3.54{col 46}{space 3}0.000{col 54}{space 4} .6329445{col 67}{space 3} 2.198804
+{txt}{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+     sigma_u {c |} {res} 1.0168946
+     {txt}sigma_e {c |} {res} 4.4018742
+         {txt}rho {c |} {res} .05066368{txt}   (fraction of variance due to u_i)
+{hline 13}{c BT}{hline 64}
+
+{com}. 
+. hausman fixed_stat .
+
+{txt}{col 18}{hline 4} Coefficients {hline 4}
+{col 14}{c |}{col 21}(b){col 34}(B){col 49}(b-B){col 59}sqrt(diag(V_b-V_B))
+{col 14}{c |}{col 17} fixed_stat {col 30}     .      {col 46}Difference{col 63}Std. err.
+{hline 13}{c +}{hline 64}
+{space 6}dtinvt {c |}{res}{col 18} .0984416{col 31} .0943626{col 47}  .004079{col 63} .0025481
+{txt}{space 8}dtoc {c |}{res}{col 18}-.0258711{col 31}-.0225074{col 47}-.0033637{col 63}        .
+{txt}{space 8}tinf {c |}{res}{col 18}  .003052{col 31} .0051762{col 47}-.0021242{col 63} .0099028
+{txt}{hline 13}{c BT}{hline 64}
+{ralign 78:b = Consistent under H0 and Ha; obtained from {bf:xtreg}.}
+{ralign 78:B = Inconsistent under Ha, efficient under H0; obtained from {bf:xtreg}.}
+
+Test of H0: Difference in coefficients not systematic
+
+{ralign 7:chi2({res:3})} = (b-B)'[(V_b-V_B)^(-1)](b-B)
+{col 8} = {res:-12.23}
+
+{p 0 9 0 50}Warning: chi2 < 0 ==> model
+fitted on these data fails to meet the asymptotic
+assumptions of the Hausman test;
+see {helpb suest##|_new:suest} for a 
+generalized test.{p_end}
+
+{com}. xtgls tcpibh dtinvt dtoc tinf
+
+{txt}Cross-sectional time-series FGLS regression
+
+Coefficients:  {res}generalized least squares
+{txt}Panels:        {res}homoskedastic
+{txt}Correlation:   {res}no autocorrelation
+
+{txt}Estimated covariances{col 28}= {res}        1{txt}{col 49}Number of obs{col 67}= {res}       378
+{txt}Estimated autocorrelations{col 28}= {res}        0{txt}{col 49}Number of groups{col 67}= {res}        14
+{txt}Estimated coefficients{col 28}= {res}        4{txt}{col 49}Time periods{col 67}=  {res}       27
+{txt}{col 49}Wald chi2({res}3{txt}){col 67}=  {res}     2.69
+{txt}Log likelihood{col 28}= {res}-1106.661{txt}{col 49}Prob > chi2{col 67}= {res}    0.4418
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}      tcpibh{col 14}{c |} Coefficient{col 26}  Std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 6}dtinvt {c |}{col 14}{res}{space 2}  .088965{col 26}{space 2} .0572981{col 37}{space 1}    1.55{col 46}{space 3}0.121{col 54}{space 4}-.0233372{col 67}{space 3} .2012671
+{txt}{space 8}dtoc {c |}{col 14}{res}{space 2}-.0177118{col 26}{space 2} .0218627{col 37}{space 1}   -0.81{col 46}{space 3}0.418{col 54}{space 4}-.0605618{col 67}{space 3} .0251383
+{txt}{space 8}tinf {c |}{col 14}{res}{space 2} .0070405{col 26}{space 2} .0197566{col 37}{space 1}    0.36{col 46}{space 3}0.722{col 54}{space 4}-.0316818{col 67}{space 3} .0457627
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.399776{col 26}{space 2} .2865304{col 37}{space 1}    4.89{col 46}{space 3}0.000{col 54}{space 4} .8381868{col 67}{space 3} 1.961365
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\LENOVO\3D Objects\2026.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}31 Dec 2025, 15:37:19
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
